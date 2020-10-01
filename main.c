@@ -8,7 +8,7 @@ int Compresser(char src_path[50],char dst_path[50])
 {
     FILE * fpt;
     fpt = fopen(src_path, "r");
-    int Arr[50];
+    int Arr[80];
     int i = 0;
 
     while(!feof(fpt))
@@ -27,7 +27,7 @@ int Compresser(char src_path[50],char dst_path[50])
     arrCmp[0][1] = 0;
     int indArr = 0;
 
-    for(i=1; i<lenArr; i++)
+    for(i=1; i<=lenArr; i++)
     {
 
         if(arrCmp[indArr][0] == Arr[i-1])
@@ -36,9 +36,10 @@ int Compresser(char src_path[50],char dst_path[50])
         }
         else
         {
+            printf("%i, %i\n", arrCmp[indArr][1], arrCmp[indArr][0]);
             indArr++;
             arrCmp[indArr][1] = 1;
-            arrCmp[indArr][0] = Arr[i];
+            arrCmp[indArr][0] = Arr[i-1];
         }
         
     }
@@ -57,7 +58,6 @@ for(i=0; i<= indArr; i++)
 
 int main()
 {
-
 
     Compresser("F.txt", "G.txt");
 
