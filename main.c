@@ -60,5 +60,7 @@ int main()
 {
 
     Compresser("F.txt", "G.txt");
-
+        
+        
+return 0;
 }
