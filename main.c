@@ -3,7 +3,7 @@
 #include <string.h>
 
 
-
+/* qst1 */
 int Compresser(char src_path[50],char dst_path[50])
 {
     FILE * fpt;
@@ -36,7 +36,6 @@ int Compresser(char src_path[50],char dst_path[50])
         }
         else
         {
-            printf("%i, %i\n", arrCmp[indArr][1], arrCmp[indArr][0]);
             indArr++;
             arrCmp[indArr][1] = 1;
             arrCmp[indArr][0] = Arr[i-1];
@@ -44,23 +43,101 @@ int Compresser(char src_path[50],char dst_path[50])
         
     }
 
-fpt = fopen(dst_path, "w");
+    fpt = fopen(dst_path, "w");
 
-for(i=0; i<= indArr; i++)
-{
-    fprintf(fpt, "%i %i\n", arrCmp[i][0], arrCmp[i][1]);
+    for(i=0; i<= indArr; i++)
+    {
+        fprintf(fpt, "%i %i\n", arrCmp[i][0], arrCmp[i][1]);
 
-}
+    }
 
+    fclose(fpt);
     return 0;
 }
+
+
+
+
+/* qst 3 */
+int Decompresser(char src_path[50],char dst_path[50])
+{
+    FILE * fpt1;
+    fpt1 = fopen(src_path, "r");
+
+    FILE * fpt2;
+    fpt2 = fopen(dst_path, "w");
+
+    int a,b,i;
+
+    while(!feof(fpt1))
+    {
+        fscanf(fpt1, "%i %i\n", &a, &b);
+        for(i=0; i<b; i++)
+        {
+            fprintf(fpt2, "%i\n", a);
+        }
+        
+        if(!feof(fpt1))
+        {
+            fprintf(fpt2, "%i\n", 0);
+        }
+    }
+
+    fclose(fpt1);
+    fclose(fpt2);
+    return 0;
+
+}
+
 
 
 int main()
 {
 
+    /* deroulement qst1 */
     Compresser("F.txt", "G.txt");
-        
-        
-return 0;
+
+
+    /* qst 2 */
+    FILE * fpt = fopen("G.txt", "r");
+    int lngSec, Sec, blnk, line, lngPos, Sec1;
+    int tot[20];
+
+    fscanf(fpt, "%i %i",&blnk , &lngSec);
+    line = 1;
+    tot[0]=lngSec;
+    Sec1 = lngSec;
+
+    while(!feof(fpt))
+    {
+        fscanf(fpt, "%i %i",&blnk , &Sec);
+        line++;
+        tot[line-1] = Sec + tot[line-2];
+
+        if(Sec > lngSec)
+        {
+            lngSec = Sec;
+            lngPos = line;
+        }
+
+    }
+    fclose(fpt);
+
+    int pos;
+
+    if(Sec1==lngSec)
+    {
+        pos = 1;
+    }else
+    {
+        pos = tot[lngPos-2] + lngPos;
+    }
+
+    printf("\nla position de la plus longue sequence en F est: POS = %i.", pos);
+
+    /* deroulement qst3 */
+    Decompresser("G.txt", "H.txt");
+
+    return 0;
+
 }
